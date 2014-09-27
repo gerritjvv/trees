@@ -8,7 +8,7 @@ A catchall utility library for tree related data structures
 Under construction.
 
 ```clojure
-(def m (tree-update-in 0 (create-root) [:ts (System/currentTimeMillis) :a 1 :b 2] safe-inc ))
+(def m (tree-update-in (create-root) [:ts (System/currentTimeMillis) :a 1 :b 2] safe-inc ))
 ```
 
 ## Benchmark

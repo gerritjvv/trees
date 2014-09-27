@@ -11,6 +11,9 @@
 
 (defn create-root [] (->Node 0 {}))
 
+;@TODO change inc count to a sum function provided by the user
+;@TODO get-count-in should use the children count funciton
+
 (defn- tree-assoc [lvl m k v]
   (let [m2 (if m m (if (odd? lvl) (->Node 0 (sorted-map)) (->Node 0 {})))]
    (assoc m2 :count (inc (:count m2)) :children (assoc (:children m2) k v))))
