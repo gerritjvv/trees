@@ -17,4 +17,4 @@
 (defcase insert :labeled-insert
           [data]
           (reduce (fn [tree ks]
-                    (t/tree-update-in 0 tree ks t/safe-inc)) (t/create-root) data))
+                    (t/tree-update-in tree ks t/safe-inc)) (t/create-root) data))
