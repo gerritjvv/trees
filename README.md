@@ -37,7 +37,7 @@ The keyword :agg contains whatever was returned by the agg functions, see "Tree 
 ### Tree updates/inserts
 
 Updates and inserts are the same and uses ```tree-update-in```  
-The function takes the arguments [tree ks agg-f update-f update-f-args]
+The function takes the arguments [tree ks agg-f update-f]
 
 ```
 tree     => is the tree returned from either create-root or another tree-* function
@@ -52,7 +52,6 @@ update-f => Is the function called at the end of the ks path (note any intermedi
             its arguments are (update-f state args)
             state => is the last value returned at the update path ks i.e if no value existed this will be nil otherwise if this function returned a vector [1 2] 
                      state will be [1 2] or as with the safe-inc function if it returned 0, 0 will be the state value.
-            args  => any args passed to the tree-update-in function.
 ```
 
 
@@ -61,16 +60,16 @@ update-f => Is the function called at the end of the ks path (note any intermedi
 #### Insert 100 000 random records with 3 labels i.e a depth of 6.
 
 ```
-WARNING: Final GC required 2.906341797473373 % of runtime
+WARNING: Final GC required 3.2728941684015633 % of runtime
 Goal:  Insert into labeled trie
 -----
 Case:  :labeled-insert
 Evaluation count : 120 in 60 samples of 2 calls.
-             Execution time mean : 777.109015 ms
-    Execution time std-deviation : 7.548671 ms
-   Execution time lower quantile : 761.965999 ms ( 2.5%)
-   Execution time upper quantile : 791.950274 ms (97.5%)
-                   Overhead used : 1.777407 ns
+             Execution time mean : 596.872507 ms
+    Execution time std-deviation : 3.593147 ms
+   Execution time lower quantile : 590.464499 ms ( 2.5%)
+   Execution time upper quantile : 602.800874 ms (97.5%)
+                   Overhead used : 1.861573 ns
 ```
 
 ## License
