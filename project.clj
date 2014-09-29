@@ -24,4 +24,6 @@
              ]
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [criterium "0.4.3"]])
+                 ;[net.kuujo/copycat "0.3.0-SNAPSHOT"]
+                 ;[net.kuujo/copycat-netty "0.3.0-SNAPSHOT"]
+                 [criterium "0.4.3" :scope "provided"]])

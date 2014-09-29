@@ -8,8 +8,12 @@ A catchall utility library for tree related data structures
 Under construction.
 
 ```clojure
+(use 'trees.labeled-trie)
+
 (def m (reduce (fn [tree ks] (tree-update-in tree ks last-val-sum safe-inc)) (create-root) [[:a 1] [:a 1] [:a 4] [:a 9]]))
  
+;; #trees.labeled_trie.Node{:count 4, :agg 15, :children {:a #trees.labeled_trie.Node{:count 4, :agg 15, :children {1 1, 4 0, 9 0}}}}
+
 ```
 
 ## Labeled Trie 

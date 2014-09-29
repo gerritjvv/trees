@@ -13,8 +13,6 @@
 
 (defn create-root [] (->Node 0 0 {}))
 
-;@TODO change inc count to a sum function provided by the user
-;@TODO get-count-in should use the children count funciton
 
 (defn- tree-assoc
   "all-ks All the original keys and values passed to the update-in
