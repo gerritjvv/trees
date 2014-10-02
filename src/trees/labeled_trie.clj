@@ -67,9 +67,9 @@
   ([v] (if v v 0)))
 
 (defn safe-inc
-  ([]  0)
+  ([]  1)
   ([v]
-   (if v (inc v) 0)))
+   (if v (inc v) 1)))
 
 (defn safe-sum
   ([] 0)

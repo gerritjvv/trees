@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :plugins [[perforate "0.3.3"]]
+  :plugins [[perforate "0.3.3"] [lein-midje "3.1.1"]]
 
   :perforate {:benchmark-paths ["bench"]}
 
@@ -24,6 +24,9 @@
              ]
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 ;[net.kuujo/copycat "0.3.0-SNAPSHOT"]
-                 ;[net.kuujo/copycat-netty "0.3.0-SNAPSHOT"]
+                 [com.taoensso/nippy "2.6.3"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [aleph "0.3.3"]
+                 [com.stuartsierra/component "0.2.2"]
+                 [midje "1.6.3" :scope "test"]
                  [criterium "0.4.3" :scope "provided"]])
