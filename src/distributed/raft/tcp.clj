@@ -90,19 +90,24 @@
 
 (defn- _create-net-protocol-component!
   "Create/start : append-server, vote-server and a clients-state ref"
-  [vote-port append-port vote-handler append-handler]
-  (let [vote-server   (start-server! {:port vote-port} vote-handler)
+  [vote-port append-port write-port vote-handler append-handler write-handler]
+  (let [vote-server   (start-server! {:port vote-port}   vote-handler)
         append-server (start-server! {:port append-port} append-handler)
+        write-server  (start-server! {:port write-port}  write-handler)
         clients-state (ref {})]
     {:vote-port vote-port
      :append-port append-port
      :vote-server vote-server
      :append-server append-server
+     :write-port write-port
+     :write-server write-server
      :clients-state clients-state}))
 
-(defn- _stop-net-protocol-component! [{:keys [vote-server append-server clients-state]}]
+(defn- _stop-net-protocol-component! [{:keys [write-server vote-server append-server clients-state]}]
   (stop-server! vote-server)
   (stop-server! append-server)
+  (stop-server! write-server)
+
   (doseq [[k c] @clients-state]
     (stop-client! @c)
     (dosync (alter clients-state dissoc k))))
@@ -111,12 +116,14 @@
   (send-receive! @(ensure-client-in-ref! clients-state member vote-port)
                  vote-req))
 
+;send-tcp-vote-req-async!
+
 (defn nil-safe-get [m k default]
   (if-let [v (get m k)]
     v
     default))
 ;;A component that implements the Lifecycle and INet protocol
-(defrecord TcpNetProtocolComponent [conf vote-handler append-handler]
+(defrecord TcpNetProtocolComponent [conf vote-handler append-handler write-handler]
 
   component/Lifecycle
   (start [this]
@@ -125,8 +132,10 @@
       (assoc this
         :proto-comp (_create-net-protocol-component! (nil-safe-get (:conf this) :vote-port   7090)
                                                      (nil-safe-get (:conf this) :append-port 7091)
+                                                     (nil-safe-get (:conf this) :write-port  7092)
                                                      vote-handler
-                                                     append-handler))))
+                                                     append-handler
+                                                     write-handler))))
   (stop [this]
     (if (:proto-comp this)
       (do
@@ -137,8 +146,12 @@
   (send-vote! [this member vote-req]
     (if (:proto-comp this)
       (send-tcp-vote-req! (:proto-comp this) member vote-req)
+      (throw (RuntimeException. (str "The component was not started")))))
+  (send-vote-async! [this member vote-req callback-f]
+    (if (:proto-comp this)
+      (send-tcp-vote-req-async! (:proto-comp this) member vote-req callback-f)
       (throw (RuntimeException. (str "The component was not started"))))))
 
 
-(defn create-net-protocol-component [conf vote-handler append-handler]
-  (->TcpNetProtocolComponent conf vote-handler append-handler))
+(defn create-net-protocol-component [conf vote-handler append-handler write-handler]
+  (->TcpNetProtocolComponent conf vote-handler append-handler write-handler))

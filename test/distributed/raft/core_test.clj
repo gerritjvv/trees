@@ -1,5 +1,5 @@
 (ns distributed.raft.core-test
-  (:require [distributed.raft.core :refer :all])
+  (:require [distributed.raft.api :refer :all])
   (:use midje.sweet))
 
 (facts "Test distributed unit functions"
